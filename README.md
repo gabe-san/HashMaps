@@ -1,3 +1,3 @@
-# Linked List
+# HashMap
 
-Practice using linked list data structure using JS.
+Practice using HashMap data structure with separate chaining using JS.

@@ -1,6 +1,6 @@
 import Node from './node';
 
-class LinkedList {
+export default class LinkedList {
   constructor(head = null) {
     this.head = head;
     this.length = 0;
@@ -10,8 +10,8 @@ class LinkedList {
     return this.length;
   }
 
-  prepend(value) {
-    const newNode = new Node(value);
+  prepend(key, value) {
+    const newNode = new Node(key, value);
     const current = this.head
     newNode.next = current;
     this.head = newNode
@@ -19,8 +19,8 @@ class LinkedList {
   }
 
   // current.next in while loop skips check on the LAST element in the list
-  append(value) {
-    const nodeItem = new Node(value);
+  append(key, value) {
+    const nodeItem = new Node(key, value);
     if (this.head === null) {
       this.head = nodeItem;
     } else {
@@ -83,10 +83,11 @@ class LinkedList {
     return current
   }
 
-  contains(value) {
+  // change argument whether you want to check if list contains key or value 
+  contains(key) {
     let current = this.head;
     while (current) {
-      if (current.value === value) {
+      if (current.key === key) {
         return true
       }
       current = current.next
@@ -94,11 +95,11 @@ class LinkedList {
     return false
   }
 
-  find(value) {
+  find(key) {
     let count = 0;
     let current = this.head;
     while (current) {
-      if (current.value === value) {
+      if (current.key === key) {
         return count
       }
       count++
@@ -111,14 +112,42 @@ class LinkedList {
     let stringResult = '';
     let current = this.head;
     while (current) {
-      stringResult += `( ${current.value} )${(current.next) ? ' -> ' : ' -> null'}`;
+      stringResult += `( ${current.key}: ${current.value} )${(current.next) ? ' -> ' : ' -> null'}`;
       current = current.next
     }
     return stringResult
   }
 
-  insertAt(value, index) {
-    const newNode = new Node(value)
+  // change second argument to newKey/newValue/etc.
+  overwriteData(index, newValue) {
+    let count = 0;
+    let current = this.head;
+    while (current) {
+      if (index === count) {
+        current.value = newValue;
+        return
+      }
+      count++;
+      current = current.next
+    }
+  }
+
+  getValue(index) {
+    let count = 0;
+    let current = this.head;
+    while (current) {
+      if (index === count) {
+        return current.value;
+
+      }
+      count++;
+      current = current.next
+    }
+    return false;
+  }
+
+  insertAt(key, value, index) {
+    const newNode = new Node(key, value)
     let count = 0
     let current = this.head;
     let prev = null;
@@ -170,7 +199,34 @@ class LinkedList {
     }
     return current
   }
-}
 
-const list = new LinkedList();
-export default list;
+  getAllKeys() {
+    let current = this.head;
+    const array = [];
+    while (current) {
+      array.push(current.key)
+      current = current.next;
+    }
+    return array;
+  }
+
+  getAllValues() {
+    let current = this.head;
+    const array = [];
+    while (current) {
+      array.push(current.value)
+      current = current.next;
+    }
+    return array;
+  }
+
+  getAllEntries() {
+    let current = this.head;
+    const array = [];
+    while (current) {
+      array.push([current.key, current.value])
+      current = current.next;
+    }
+    return array;
+  }
+}
